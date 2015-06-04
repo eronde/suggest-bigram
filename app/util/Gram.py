@@ -64,8 +64,12 @@ class Gram(object):
         :returns: generator string
         
         """
-        getFollowingWords = self.gen_bigram(prevGram)
-        sortWords = self.sort(getFollowingWords)
+        bigram = self.gen_bigram(prevGram)
+        
+        if not bigram == 0:
+            print('empty')
+            raise ValueError('No bigrams available with word:',prevGram)
+        sortWords = self.sort(bigram)
         retreiveWords = [currentWord for (freq, currentWord) in sortWords]
         idToWords = tuple(map(self.getWordFromId, retreiveWords))
         return (followingWord for followingWord in idToWords)

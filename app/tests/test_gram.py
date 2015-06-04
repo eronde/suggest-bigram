@@ -37,6 +37,7 @@ class GramTest(unittest.TestCase):
         """
         obj = Gram(self.gramData, self.wordList)
         self.assertEqual(obj.getWordFromId('2'), 'c')
+        self.assertEqual(obj.getWordFromId(2), 'c')
 
     def test_nonExistingWordiByIdStr(self):
         """Getting None by non existing word from wordList (string id)
@@ -44,15 +45,9 @@ class GramTest(unittest.TestCase):
         """
         obj = Gram(self.gramData, self.wordList)
         self.assertIsNone(obj.getWordFromId(99))
-    def test_getWordById(self):
-        """Getting existing word from wordList by word Id
-        :returns: 
-        """
-        obj = Gram(self.gramData, self.wordList)
-        self.assertEqual(obj.getWordFromId(2), 'c')
 
     def test_nonExistingWordiById(self):
-        """Getting non existing word from wordList
+        """Getting None of anon existing word from wordList
         :returns:  
         """
         obj = Gram(self.gramData, self.wordList)
@@ -70,24 +65,38 @@ class GramTest(unittest.TestCase):
         :returns: 
         """
         obj = Gram(self.gramData, self.wordList)
-        self.assertIsNone(obj.getIndexOfWord('j'))
+        self.assertIsNone(obj.getIndexOfWord('non'))
 
     def test_getAllNextWordsByid(self):
         """Getting all following words given an existed previous word, sorting reverse
-        :returns: TODO
+        :returns:
 
         """
         obj = Gram(self.gramData, self.wordList)
         self.assertTupleEqual(tuple(obj.gen_followingWordOf(2)), ('h', 'a', 'f', 'g', 'e'))
+        self.assertTupleEqual(tuple(obj.gen_followingWordOf('2')), ('h', 'a', 'f', 'g', 'e'))
    
-    def RaiseErrorEmptyPrevgramBygen_bigram(self):
-        """TODO: Docstring for RaiseErrorEmptyPrevgramBygen_bigram.
-        :returns: TODO
+    def test_RaiseErrorEmptyPrevgramBygen_bigram(self):
+        """Raise error on gen_bigram  for empty args
+        :returns: 
 
         """
-        pass
+        obj = Gram(self.gramData, self.wordList)
+        with self.assertRaises(ValueError):
+            list(obj.gen_bigram(None))
+        with self.assertRaises(ValueError):
+            list(obj.gen_bigram(''))
 
+    def test_raiseErrorWordExistNoBigram(self):
+        """Raise error on gen_followingWordOf if word exist but no bigram
+        :returns: 
 
+        """
+        obj = Gram(self.gramData, self.wordList)
+        
+        with self.assertRaises(ValueError):
+            list(obj.gen_followingWordOf(obj.getIndexOfWord('j')))
+        
     def setUp(self):
         self.gramData = [
                  [0,3,8,1],
@@ -103,6 +112,6 @@ class GramTest(unittest.TestCase):
                  [48,2,7,6],
                  [49,2,5,4],
                  [400,2,0,6]]
-        self.wordList = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i']
+        self.wordList = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i','j']
 if __name__ == '__main__':
     unittest.main()
