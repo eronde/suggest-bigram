@@ -65,11 +65,10 @@ class Gram(object):
         
         """
         bigram = self.gen_bigram(prevGram)
-        
-        if not bigram == 0:
-            print('empty')
+        sortBigrams = self.sort(bigram)
+        #Can't check  on bigrams(Generator) multiple time
+        if not sortBigrams:
             raise ValueError('No bigrams available with word:',prevGram)
-        sortWords = self.sort(bigram)
-        retreiveWords = [currentWord for (freq, currentWord) in sortWords]
+        retreiveWords = [currentWord for (freq, currentWord) in sortBigrams]
         idToWords = tuple(map(self.getWordFromId, retreiveWords))
         return (followingWord for followingWord in idToWords)
