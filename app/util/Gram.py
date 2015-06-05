@@ -6,23 +6,22 @@ class Gram(object):
     def __init__(self, gramData, wordList=None):
         self.gramData = gramData
         self.wordList = wordList
-    
+
     def gen_bigram(self, prevGram):
         """gen_bigram: Generate frequency and the current word
         of bigram with "prevGram"
 
-        :prevGram: previous word in int
+        :prevGram: previous word int
         :returns: Generator tulip with freq, following word
 
         """
         if not prevGram:
-            raise ValueError('prevGram %s:',prevGram)
+            raise ValueError('Invalid prevGram %s:', prevGram)
 
         if type(prevGram) is not int:
             prevGram = int(prevGram)
-        return ((row[3], row[2]) for row in self.gramData if row[1] == prevGram )
- 
-    
+        return ((row[3], row[2]) for row in self.gramData if row[1] == prevGram)
+
     def sort(self, listOfTuple, reverse=True):
         """
         :listOfTuple: TODO
@@ -31,7 +30,7 @@ class Gram(object):
 
         """
         return tuple(sorted(listOfTuple, reverse=reverse))
-    
+
     def getWordFromId(self, wordId):
         """getWordFromId: Getting word with wordId stored in wordList.
 
@@ -50,7 +49,7 @@ class Gram(object):
         :returns: int/None
         """
         if not word:
-            raise ValueError('invalid type:',prevGram)
+            raise ValueError('Invalid type:', word)
         if str(word) in self.wordList:
             return self.wordList.index(str(word))
         else:
@@ -62,13 +61,12 @@ class Gram(object):
 
         :prevGram: int
         :returns: generator string
-        
         """
         bigram = self.gen_bigram(prevGram)
         sortBigrams = self.sort(bigram)
-        #Can't check  on bigrams(Generator) multiple time
+        # Can't check  on bigrams(Generator) multiple time
         if not sortBigrams:
-            raise ValueError('No bigrams available with word:',prevGram)
+            raise ValueError('No bigrams available with word:', prevGram)
         retreiveWords = [currentWord for (freq, currentWord) in sortBigrams]
         idToWords = tuple(map(self.getWordFromId, retreiveWords))
         return (followingWord for followingWord in idToWords)
