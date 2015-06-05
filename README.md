@@ -15,7 +15,7 @@ This example contains only dutch words.
 Returns:
 ('heb', 'ben', 'denk', 'wil', 'weet', 'kan', 'hoop', 'was', 'geef', 'doe', 'vind', 'had', 'zal', 'zoek', 'voel', 'verwacht', 'moet', 'zou', 'zie', 'wilde', 'werk', 'probeerde',......)
 ````
-- Suggested word of 'can'  ('can' in english)
+- Suggested word of 'kan'  ('can' in english)
 ````
     getFollowingWords = obj.gen_followingWordOf(obj.getIndexOfWord('kan'))
     print(tuple(getFollowingWords))
